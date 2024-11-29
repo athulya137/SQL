@@ -8,3 +8,13 @@ P(R) represents a pattern drawn by Julia in R rows. The following pattern repres
 Write a query to print the pattern P(20).
 
 SELECT SYS_CONNECT_BY_PATH(NULL, '* ') FROM DUAL CONNECT BY ROWNUM <= 20 ORDER BY 1 DESC;
+
+
+
+WITH RECURSIVE cte AS
+(
+  SELECT 1 AS n, CAST('*' AS CHAR(100)) AS str
+  UNION ALL
+  SELECT n + 1, concat('* ',str) FROM cte WHERE n < 20
+)
+SELECT str FROM cte;
